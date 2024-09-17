@@ -41,5 +41,4 @@ app.use("/expenses",expenseRouter)
 app.use("/password",resetRouter)
 app.use("/premium",premiumRouter)
 
-module.exports = app;
-
+app.listen(5500,()=>console.log("server started on port 5500"))
