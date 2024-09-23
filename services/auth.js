@@ -1,5 +1,5 @@
 const nodemailer=require("nodemailer")
-const bcrypt=require("bcrypt")
+const bcrypt=require("bcryptjs")
 const jwt=require("jsonwebtoken")
 const Users=require("../models/users")
 const {v4:uuidv4} =require("uuid")
