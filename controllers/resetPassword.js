@@ -1,15 +1,15 @@
 const express=require("express")
 const resetReq=require("../models/password_req")
 const mongoose=require("mongoose")
+const { handleResetRequest } = require("../services/resetPassword")
 
 
 const handleRequest=async(req,res,next)=>{
     try {
         const {id}=req.params
        
-        const reqId=new mongoose.Types.ObjectId(id)
-        const passwordReq=await resetReq.findById(reqId)
-        if(passwordReq && passwordReq.isActive){
+        const result=await handleResetRequest(id)
+        if(result===1){
             return  res.render("email",{id})
         }
         else res.send("Request timed-out")

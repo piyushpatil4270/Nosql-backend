@@ -1,8 +1,6 @@
 require("dotenv").config()
 const mongoDb=require("mongodb")
 const mongoose = require("mongoose")
-const MongoClient=mongoDb.MongoClient
-
 
 
 

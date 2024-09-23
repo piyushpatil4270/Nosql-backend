@@ -4,6 +4,7 @@ const router=express.Router()
 const auth=require("../middleware/auth")
 const mongoose=require("mongoose")
 const users=require("../models/users")
+const { handlePremium } = require("../services/premium")
 
 function generateHash(key, txnid, amount, productinfo, firstname, email, salt) {
     const hashString = `${key}|${txnid}|${amount}|${productinfo}|${firstname}|${email}|||||||||||${salt}`;
@@ -14,8 +15,8 @@ function generateHash(key, txnid, amount, productinfo, firstname, email, salt) {
 const addUser=async(req,res,next)=>{
     try {
         const userId=req.user._id
-        const userObjectId =new mongoose.Types.ObjectId(userId)
-        const update=await users.findOneAndUpdate({_id:userObjectId},{isPremium:true})
+       
+        const update=await handlePremium(userId)
         res.status(202).json("You are premium user now")
     } catch (error) {
         console.log(error)
