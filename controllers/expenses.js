@@ -62,7 +62,7 @@ const getYearlyExpenses=async(req,res,next)=>{
     try {
        
         const userId=req.user._id
-        const res=await handleYearlyExpenses(userId,req.body)
+        const result=await handleYearlyExpenses(userId,req.body)
       
         res.status(202).json(result)
     } catch (error) {

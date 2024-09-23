@@ -10,7 +10,7 @@ const mongoose=require("mongoose")
 exports.handleAddExpense=async(body,userId)=>{
     const {title,category,description,amount,date}=body
     const createdOn=moment(date).toDate()
-  
+    const userObjectId=new mongoose.Types.ObjectId(userId)
     const expense=await expenses.create({
         title:title,
         description:description,
@@ -73,27 +73,33 @@ exports.handleLeaderboard=async()=>{
 
 
 exports.handleGetMonthlyExpenses=async(userId,body)=>{
-    const {date,skip,page,limit}=req.body
-    const userObjectId=new mongoose.Types.ObjectId(userId)
-    const startDate=moment.utc(date).startOf('month').toDate()
-        const endDate=moment.utc(date).endOf('month').toDate()
-        const totalCnt=await expenses.countDocuments({userId:userObjectId,createdOn:{
-            $gte: startDate,  
-            $lte: endDate     
-        }})
-        const offset=(page-1)*limit
-        const userExpenses=await expenses.find({userId:userObjectId,createdOn: {
-            $gte: startDate,  
-            $lte: endDate     
-          }})
-          .limit(Number(limit))  
-          .skip(Number(offset))   
-          .sort({ createdOn: 1 });
-          return {expenses:userExpenses,total:totalCnt}
+    try {
+        const {date,skip,page,limit}=body
+        const userObjectId=new mongoose.Types.ObjectId(userId)
+        const startDate=moment.utc(date).startOf('month').toDate()
+            const endDate=moment.utc(date).endOf('month').toDate()
+            const totalCnt=await expenses.countDocuments({userId:userObjectId,createdOn:{
+                $gte: startDate,  
+                $lte: endDate     
+            }})
+            const offset=(page-1)*limit
+            const userExpenses=await expenses.find({userId:userObjectId,createdOn: {
+                $gte: startDate,  
+                $lte: endDate     
+              }})
+              .limit(Number(limit))  
+              .skip(Number(offset))   
+              .sort({ createdOn: 1 });
+              return {expenses:userExpenses,total:totalCnt}
+    } catch (error) {
+        console.log(error)
+    }
+ 
 }
 
 
 exports.handleExpensesByCategory=async(userId,body)=>{
+const {date}=body
 const userObjectId=new mongoose.Types.ObjectId(userId)
 const startYear=moment.utc(date).startOf("year").toDate();
 const endYear=moment.utc(date).endOf("year").toDate()
