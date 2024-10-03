@@ -5,9 +5,9 @@ const Users=require("../models/users")
 const {v4:uuidv4} =require("uuid")
 const passwordRequest=require("../models/password_req")
 const { default: mongoose } = require("mongoose")
-
+require("dotenv").config()
 function generateToken(id) {
-    const token = jwt.sign({ userId: id }, "fskhkahkk88245fafjklakljfalk");
+    const token = jwt.sign({ userId: id }, process.env.JWT_SECRETKEY);
     return token;
   }
 const saltRounds=10

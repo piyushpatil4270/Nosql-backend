@@ -58,7 +58,7 @@ const user=await Users.findById(objectId)
 const expenseObjectId=new mongoose.Types.ObjectId(id)
 const expense=await expenses.findById(expenseObjectId)
 const deleteExpense=await expenses.findByIdAndDelete(expenseObjectId)
-const updateExpenses=await Users.findByIdAndUpdate(objectId,{totalExpenses:user.totalExpenses-expense.amount})
+const updateExpenses=await Users.findByIdAndUpdate(objectId,{  totalExpenses:user.totalExpenses-expense.amount})
 return 1
 }
 
@@ -162,3 +162,5 @@ exports.handleYearlyExpenses=async(userId,body)=>{
        })
        return expArray
 }
+
+
